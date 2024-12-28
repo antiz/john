@@ -370,14 +370,14 @@ static void common_crypt_code(char *password, unsigned char *out, int full_decry
 		memcpy(iv, key + 32, 16);
 		AES_ctr_decrypt(cur_salt->ct + cur_salt->ciphertext_begin_offset, 16, key, iv,
 		                out);
-	} else if (cur_salt->cipher == 3) { // EC keys with AES-128
-		unsigned char key[16];
+	} else if (cur_salt->cipher == 3) { // EC keys with AES-256
+		unsigned char key[32];
 		AES_KEY akey;
 		unsigned char iv[16];
 
 		memcpy(iv, cur_salt->salt, 16);
-		generate_key_bytes(16, (unsigned char*)password, key);
-		AES_set_decrypt_key(key, 128, &akey);
+		generate_key_bytes(32, (unsigned char*)password, key);
+		AES_set_decrypt_key(key, 256, &akey);
 		// full decrypt
 		AES_cbc_encrypt(cur_salt->ct, out, cur_salt->ctl, &akey, iv, AES_DECRYPT);
 	} else if (cur_salt->cipher == 4) { // RSA/DSA keys with AES-192
