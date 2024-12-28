@@ -195,7 +195,7 @@ def read_private_key(filename):
         elif keysize == 16 and (ktype == 0 or ktype == 1):  # RSA, DSA keys using AES-128
             hashline = "%s%s:$sshng$%s$%s$%s$%s$%s" % (f.name, filename_idx, 1, len(saltstr) // 2,
                 saltstr, len(data) // 2, data)
-        elif keysize == 16 and ktype == 3:  # EC keys using AES-128
+        elif keysize == 32 and ktype == 3:  # EC keys using AES-256
             hashline = "%s%s:$sshng$%s$%s$%s$%s$%s" % (f.name, filename_idx, 3, len(saltstr) // 2,
                 saltstr, len(data) // 2, data)
         elif keysize == 32 and encryption_type == "AES-256-CBC" and ktype == 2:  # bcrypt pbkdf + aes-256-cbc
